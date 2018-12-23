@@ -4,12 +4,7 @@ export default class FormComponent extends Component {
     constructor(props) {
         super(props);
         // Set init state
-        this.state = {
-            fname: '',
-            lname: '',
-            emailid: '',
-            gender: 'male'
-        }
+        this.state = this.props.store.getState();
 
         //Bind onchange event to this class
         this.fnameChange = this.fnameChange.bind(this);
@@ -36,18 +31,11 @@ export default class FormComponent extends Component {
                         <input type="email" className="form-control" id="email" value={this.state.emailid} onChange={this.emailChange} required />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="email">Gender:</label>
-                        <br />
-                        <div className="form-check-inline">
-                            <label className="form-check-label">
-                                <input type="radio" className="form-check-input" value="male" name="gender" onChange={this.genderChange} checked={this.state.gender === 'male'} />Male
-                    </label>
-                        </div>
-                        <div className="form-check-inline">
-                            <label className="form-check-label">
-                                <input type="radio" className="form-check-input" value="female" name="gender" onChange={this.genderChange} checked={this.state.gender === 'female'} />Female
-                    </label>
-                        </div>
+                        <label htmlFor="email">Email address:</label>
+                        <select className="form-control" id="gender" onChange={this.genderChange} value={this.state.gender}>
+                            <option value='male'>Male</option>
+                            <option value='female'>Female</option>
+                        </select>
                     </div>
                     <div className="float-right">
                         <button type="submit" className="btn btn-primary">Submit</button>
@@ -58,31 +46,33 @@ export default class FormComponent extends Component {
     }
 
     genderChange(event) {
-        this.setState({ gender: event.target.value });
+        this.props.store.dispatch({ type: "gender", state: event.target.value });
+        event.preventDefault();
     }
 
     fnameChange(event) {
-        this.setState({ fname: event.target.value });
+        this.props.store.dispatch({ type: "fname", state: event.target.value });
         event.preventDefault();
     }
 
     lnameChange(event) {
-        this.setState({ lname: event.target.value });
+        this.props.store.dispatch({ type: "lname", state: event.target.value });
         event.preventDefault();
     }
 
     emailChange(event) {
-        this.setState({ emailid: event.target.value });
+        this.props.store.dispatch({ type: "emailid", state: event.target.value });
         event.preventDefault();
     }
 
     formSubmitted(event) {
-        console.log(this.state);
+        console.log(this.props.store.getState());
+        // Save using the api
         this.resetForm();
         event.preventDefault();
     }
 
     resetForm() {
-        this.setState({ fname: '', lname: '', emailid: '', gender: 'male' });
+        this.props.store.dispatch({ type: "reset", state: { fname: '', lname: '', emailid: '', gender: 'male' } });
     }
 }

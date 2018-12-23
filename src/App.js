@@ -7,7 +7,7 @@ import FormComponent from './components/FormComponent';
 class App extends Component {
   render() {
     return ( 
-      <FormComponent />
+      <FormComponent store={this.props.store}/>
     );
   }
 }
