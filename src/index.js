@@ -6,6 +6,10 @@ import * as serviceWorker from './serviceWorker';
 import {
     createStore
 } from 'redux';
+import {
+    BrowserRouter
+} from 'react-router-dom'
+
 import FormsData from './reducers/FormsData';
 //initial state
 const initialState = {
@@ -16,7 +20,11 @@ const initialState = {
 };
 //initialise store
 const store = createStore(FormsData, initialState);
-const render = () => ReactDOM.render( <App store={store} /> , document.getElementById('root'));
+const render = () => ReactDOM.render( 
+<BrowserRouter>
+<App store={store} />
+</BrowserRouter> , document.getElementById('root'));
+
 render();
 store.subscribe(render);
 // If you want your app to work offline and load faster, you can change

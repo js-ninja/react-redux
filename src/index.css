@@ -17,3 +17,8 @@ code {
 .margin-top {
   margin-top: 10px;
 }
+
+.padding {
+  padding: 10px;
+  font-size: 12px;
+}

@@ -66,10 +66,29 @@ export default class FormComponent extends Component {
     }
 
     formSubmitted(event) {
-        console.log(this.props.store.getState());
-        // Save using the api
-        this.resetForm();
         event.preventDefault();
+        const currentState = this.props.store.getState();
+        // Save using the api
+        const payload = {
+            first_name: currentState.fname,
+            last_name: currentState.lname,
+            email: currentState.emailid,
+            gender: currentState.gender
+        };
+
+        fetch('https://gorest.co.in/public-api/users?_format=json&access-token=QeUtQCgdsAAeCdFbhUz1h6-HdVJ30zv8xMYR', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        }).then(res => res.json())
+            .then(res => {
+                //Todo Check whether the form was submitted successfully and only then resetfom
+                alert('Form Submitted successfully');
+                this.resetForm();
+            });
     }
 
     resetForm() {
